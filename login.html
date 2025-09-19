@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background: URL("aSSETS/laboratory-6515519_1280.jpg") no-repeat center center fixed;
+    background-size: cover;
+  }
+  .login-box {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    width: 320px;
+    text-align: center;
+  }
+  .login-box img {
+    width: 100px;
+    margin-bottom: 15px;
+  }
+  .login-box h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  input {
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:6px;
+    border:1px solid #ccc;
+    font-size:14px;
+  }
+  button {
+    width:100%;
+    padding:12px;
+    background:#007BFF;
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    font-size:16px;
+    cursor:pointer;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background:#0056b3;
+  }
+</style>
+</head>
+<body>
+<div class="login-box">
+  <!-- Logo Image -->
+  <img src="assets/logo non bg (1).png" alt="Logo">
+  <h2>Login</h2>
+  <input type="text" id="loginId" placeholder="Login ID">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="handleLogin()">Login</button>
+</div>
+
+<script>
+  // Hardcoded credentials
+  const USERS = [
+  {id: "Anish", password: "9829805571", name: "Anish Kumar", role: "admin"},
+  {id: "Sharan", password: "7232821727", name: "Dr. Smith", role: "user"},
+  {id: "user3", password: "pass3", name: "Admin User", role: "user"}
+];
+
+
+  function handleLogin(){
+    const id = document.getElementById("loginId").value.trim();
+    const pass = document.getElementById("password").value.trim();
+    const user = USERS.find(u => u.id === id && u.password === pass);
+    if(user){
+      localStorage.setItem("loggedInUser", JSON.stringify(user));
+      window.location.href = "index.html"; // Redirect to main home page
+    } else {
+      alert("❌ Invalid credentials");
+    }
+  }
+</script>
+</body>
+</html>
