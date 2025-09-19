@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Patient Entry - Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="config.js"></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+<header>
+  <img src="assets/logo non bg (1).png" alt="Logo" class="logo" />
+  <nav>
+    <a class="nav-btn" href="index.html">Home</a>
+    <a class="nav-btn" href="patients.html">Patient Details</a>
+    <!-- Logs button will only show for admin -->
+    <button id="logsBtn" class="nav-btn" style="display:none;">Logs</button>
+    <button id="logoutBtn" class="nav-btn">Logout</button>
+  </nav>
+</header>
+<main>
+  <div class="form-container">
+    <h2>New Patient Entry</h2>
+
+    <div class="top-info">
+      <div id="hNumber">H-0001/2025</div>
+      <div id="todayDate">01/01/2025</div>
+    </div>
+
+    <form id="patientForm">
+      <label>Patient Name</label>
+      <input type="text" id="patientName" required />
+
+      <label>Age</label>
+      <input type="text" id="age" min="0" required />
+
+      <label>Hospital Name</label>
+      <div class="inline-row">
+        <div class="small">
+          <input list="hospitalList" id="hospitalInput" placeholder="Type to search or select" required>
+          <datalist id="hospitalList"></datalist>
+        </div>
+        <button type="button" id="addHospitalBtn" class="add-btn">Add New</button>
+      </div>
+
+      <label>Doctor Name</label>
+      <div class="inline-row">
+        <div class="small">
+          <input list="doctorList" id="doctorInput" placeholder="Type to search or select" required>
+          <datalist id="doctorList"></datalist>
+        </div>
+        <button type="button" id="addDoctorBtn" class="add-btn">Add New</button>
+      </div>
+
+      <label>Information</label>
+      <textarea id="info" placeholder="Type any additional information..."></textarea>
+
+      <label>Containers (what we received)</label>
+      <input type="text" id="containers" placeholder="e.g., 3 bits, whole specimen" />
+
+      <label>Test Name</label>
+      <select id="testName">
+        <option>SMALL</option>
+        <option>MEDIUM</option>
+        <option>LARGE</option>
+        <option>EXTRA LARGE</option>
+        <option>IHC</option>
+        <option>EXPERT OPINION</option>
+      </select>
+
+      <button type="submit" class="submit-btn">Save Entry</button>
+    </form>
+  </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const currentUser = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+  if (!currentUser) {
+    alert("Please login first!");
+    window.location.href = 'login.html';
+    return;
+  }
+
+  // Show Logs button only for admin
+  const logsBtn = document.getElementById('logsBtn');
+  if (currentUser.role === 'admin') {
+    logsBtn.style.display = 'inline-block';
+    logsBtn.addEventListener('click', function () {
+      window.location.href = 'logs.html'; // redirect to logs page
+    });
+  }
+
+  // Add new hospital
+  const addHosp = document.getElementById('addHospitalBtn');
+  if (addHosp) addHosp.addEventListener('click', () => addNewOption('hospital'));
+
+  // Add new doctor
+  const addDoc = document.getElementById('addDoctorBtn');
+  if (addDoc) addDoc.addEventListener('click', () => addNewOption('doctor'));
+
+  // Logout button
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) logoutBtn.addEventListener('click', function () {
+    localStorage.removeItem('loggedInUser');
+    window.location.href = 'login.html';
+  });
+});
+</script>
+</body>
+</html>
